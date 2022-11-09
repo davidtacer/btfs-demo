@@ -9,39 +9,6 @@ const headers = {
     'API-KEY': 'rv1224zXtmcdKDCGeGpanfcKKKsrhwkxJeuBtMeA',
     'Content-Type': 'application/json'
 }
-const nodeInfo = {
-    "ID": "16Uiu2HAkyi2S3RMJSubGKro2x9rZc3XjTue6iBt8FEJGTsasC1EJ",
-    "PublicKey": "CAISIQI/nyqcGsLGlFqqtmlj7Oa+gErr/kHx5CZ63Spg5Xyf+w==",
-    "Addresses": [
-        "/ip4/10.88.0.10/tcp/4001/p2p/16Uiu2HAkyi2S3RMJSubGKro2x9rZc3XjTue6iBt8FEJGTsasC1EJ",
-        "/ip4/127.0.0.1/tcp/4001/p2p/16Uiu2HAkyi2S3RMJSubGKro2x9rZc3XjTue6iBt8FEJGTsasC1EJ",
-        "/ip4/5.75.128.112/tcp/4001/p2p/16Uiu2HAkyi2S3RMJSubGKro2x9rZc3XjTue6iBt8FEJGTsasC1EJ",
-        "/ip4/5.75.128.112/tcp/60874/p2p/16Uiu2HAkyi2S3RMJSubGKro2x9rZc3XjTue6iBt8FEJGTsasC1EJ",
-        "/ip6/::1/tcp/4001/p2p/16Uiu2HAkyi2S3RMJSubGKro2x9rZc3XjTue6iBt8FEJGTsasC1EJ"
-    ],
-    "AgentVersion": "go-btfs/2.2.1/",
-    "ProtocolVersion": "btfs/0.1.0",
-    "Protocols": [
-        "/btfs/kad/1.0.0",
-        "/btfs/lan/kad/1.0.0",
-        "/ipfs/bitswap",
-        "/ipfs/bitswap/1.0.0",
-        "/ipfs/bitswap/1.1.0",
-        "/ipfs/bitswap/1.2.0",
-        "/ipfs/id/1.0.0",
-        "/ipfs/id/push/1.0.0",
-        "/ipfs/ping/1.0.0",
-        "/libp2p/autonat/1.0.0",
-        "/libp2p/circuit/relay/0.1.0",
-        "/p2p/id/delta/1.0.0",
-        "/x/"
-    ],
-    "DaemonProcessID": 1,
-    "TronAddress": "TPnoyHPkvSRtbMZkfgD7WNzCY2qh1SfGK7",
-    "BttcAddress": "0x979a60599d2B8878fB7763cEB8b54EB76ca8554f",
-    "VaultAddress": "0x2A2607B0405c435B6B4C52788eC32060CF600963",
-    "ChainID": 1029
-}
 
 interface IBTFSData {
     first_name: string
