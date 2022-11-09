@@ -16,6 +16,7 @@ const Dropzone: React.FC<IDropzoneProps> = ({ multiple, uploadedFiles, onDropFil
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject, isDragActive } = useDropzone({
     accept: {
       'image/*': [],
+      'video/*': [],
     },
     onDrop: acceptedFiles => {
       setFiles(
