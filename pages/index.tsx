@@ -84,7 +84,6 @@ const BTFSDemo = () => {
                 headers: { token: btfsData.token, 'Content-Type': 'multipart/form-data' }
             })
         ).data
-
         setNodeInfo(response.data)
     }
 
