@@ -9,6 +9,39 @@ const headers = {
     'API-KEY': 'rv1224zXtmcdKDCGeGpanfcKKKsrhwkxJeuBtMeA',
     'Content-Type': 'application/json'
 }
+const nodeInfo = {
+    "ID": "16Uiu2HAkyi2S3RMJSubGKro2x9rZc3XjTue6iBt8FEJGTsasC1EJ",
+    "PublicKey": "CAISIQI/nyqcGsLGlFqqtmlj7Oa+gErr/kHx5CZ63Spg5Xyf+w==",
+    "Addresses": [
+        "/ip4/10.88.0.10/tcp/4001/p2p/16Uiu2HAkyi2S3RMJSubGKro2x9rZc3XjTue6iBt8FEJGTsasC1EJ",
+        "/ip4/127.0.0.1/tcp/4001/p2p/16Uiu2HAkyi2S3RMJSubGKro2x9rZc3XjTue6iBt8FEJGTsasC1EJ",
+        "/ip4/5.75.128.112/tcp/4001/p2p/16Uiu2HAkyi2S3RMJSubGKro2x9rZc3XjTue6iBt8FEJGTsasC1EJ",
+        "/ip4/5.75.128.112/tcp/60874/p2p/16Uiu2HAkyi2S3RMJSubGKro2x9rZc3XjTue6iBt8FEJGTsasC1EJ",
+        "/ip6/::1/tcp/4001/p2p/16Uiu2HAkyi2S3RMJSubGKro2x9rZc3XjTue6iBt8FEJGTsasC1EJ"
+    ],
+    "AgentVersion": "go-btfs/2.2.1/",
+    "ProtocolVersion": "btfs/0.1.0",
+    "Protocols": [
+        "/btfs/kad/1.0.0",
+        "/btfs/lan/kad/1.0.0",
+        "/ipfs/bitswap",
+        "/ipfs/bitswap/1.0.0",
+        "/ipfs/bitswap/1.1.0",
+        "/ipfs/bitswap/1.2.0",
+        "/ipfs/id/1.0.0",
+        "/ipfs/id/push/1.0.0",
+        "/ipfs/ping/1.0.0",
+        "/libp2p/autonat/1.0.0",
+        "/libp2p/circuit/relay/0.1.0",
+        "/p2p/id/delta/1.0.0",
+        "/x/"
+    ],
+    "DaemonProcessID": 1,
+    "TronAddress": "TPnoyHPkvSRtbMZkfgD7WNzCY2qh1SfGK7",
+    "BttcAddress": "0x979a60599d2B8878fB7763cEB8b54EB76ca8554f",
+    "VaultAddress": "0x2A2607B0405c435B6B4C52788eC32060CF600963",
+    "ChainID": 1029
+}
 
 interface IBTFSData {
     first_name: string
@@ -23,14 +56,21 @@ interface IUploadedFile {
     isDefault?: boolean
 }
 
-const Home = () => {
+interface INodeInfo {
+    data: string
+}
+
+const BTFSDemo = () => {
     const [email, setEmail] = useState<string>('demo@btfs.io')
     const [password, setPassword] = useState<string>('demo3demo3demo3')
     const [btfsData, setBtfsData] = useState<IBTFSData>(null)
     const [files, setFiles] = useState<any[]>([])
     const [uploadedFiles, setUploadedFiles] = useState<IUploadedFile[]>([])
+    const [nodeInfo, setNodeInfo] = useState<INodeInfo>(null)
 
     const handleLogin = async () => {
+        console.log(email, password)
+
         const response = (
             await axios.post(
                 `${btfsUrl}/v1/auth/login`,
@@ -50,6 +90,7 @@ const Home = () => {
     }
 
     const handleUpload = async () => {
+        console.log(files[0])
         const formData = new FormData()
         formData.append('file', files[0])
 
@@ -62,9 +103,22 @@ const Home = () => {
         setUploadedFiles([
             {
                 name: files[0].name,
+                hash: files[0].hash,
+                Size: files[0].size,
                 preview: response.data.PublicUrl
             }
         ])
+    }
+
+    const handleNodeInfo = async () => {
+        console.log(files[0])
+        const response = (
+            await axios.get(`${btfsUrl}/v1/storage/btfs-info`,{
+                headers: { token: btfsData.token, 'Content-Type': 'multipart/form-data' }
+            })
+        ).data
+
+        setNodeInfo(response.data)
     }
 
     const handleDownload = async () => {
@@ -74,8 +128,8 @@ const Home = () => {
     }
 
     return (
-        <div>
-            <h2>BTFS Demo</h2>
+        <div style={{padding:"20px"}}>
+            <h2>PuzzleX BTFS Demo</h2>
             {!btfsData ? (
                 <div>
                     <p>Login to BTFS</p>
@@ -103,7 +157,29 @@ const Home = () => {
               {btfsData.first_name} {btfsData.last_name}
             </span>
                     </p>
-                    <div>Your token: {btfsData.token}</div>
+                    <div style={{width: "300px", lineBreak: "anywhere"}}><b>Your JTW auth token:</b><br/> {btfsData.token}</div>
+
+                    {nodeInfo ? (
+                        <div>
+                            <br/><br/><h3>Node Info</h3>
+                            <h4>
+                                <u>
+                                    <a target="_blank" href={`${nodeInfo.scanUrl}`}>Check BTFS scan</a>
+                                </u>
+                            </h4>
+                            <pre>
+           {JSON.stringify(nodeInfo, null, 2) }
+
+
+          </pre>
+                        </div>
+                    ) : (
+                        <div className='row ml-0 mt-4'>
+                            <Button onClick={handleNodeInfo} variant='contained' color='success'>
+                                Node Info
+                            </Button>
+                        </div>
+                    )}
                     <div className='row ml-0 mt-4'>
                         <h3>Upload file</h3>
                     </div>
@@ -115,10 +191,19 @@ const Home = () => {
                             Upload
                         </Button>
                     </div>
+
                     {!!uploadedFiles.length && (
                         <div>
                             <div className='row ml-0 mt-4'>
                                 <h3>Uploaded file on BTFS</h3>
+                                {JSON.stringify(uploadedFiles[0], null, 2) }
+                                <h4>
+                                    <br/>
+                                    <br/>
+                                    <u>
+                                        <a target="_blank" href={`${uploadedFiles[0].preview}`}>Check BTFS public gateway</a>
+                                    </u>
+                                </h4>
                             </div>
                             <div className='row ml-0'>
                                 <Dropzone uploadedFiles={uploadedFiles} hideUpload={true} />
@@ -132,8 +217,9 @@ const Home = () => {
                     )}
                 </div>
             )}
+
         </div>
     )
 }
 
-export default Home
+export default BTFSDemo
