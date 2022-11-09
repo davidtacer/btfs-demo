@@ -27,6 +27,7 @@ interface IUploadedFile {
 
 interface INodeInfo {
     data: string
+    scanUrl: string
 }
 
 const BTFSDemo = () => {
