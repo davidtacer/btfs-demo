@@ -20,6 +20,8 @@ interface IBTFSData {
 interface IUploadedFile {
     name: string
     preview: string
+    hash: string
+    size: string
     isDefault?: boolean
 }
 
@@ -71,7 +73,7 @@ const BTFSDemo = () => {
             {
                 name: files[0].name,
                 hash: files[0].hash,
-                Size: files[0].size,
+                size: files[0].size,
                 preview: response.data.PublicUrl
             }
         ])
